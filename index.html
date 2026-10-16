@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grup Battle: Adu Retri & Refleks</title>
+<meta name="description" content="Adu skor sama geng kamu: Adu Retri ML, Tap Cepat, Tes Refleks, dan Cerdas Cermat. Berani tantang?">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Grup Battle: Berani Tantang Geng Kamu?">
+<meta property="og:description" content="Adu Retri Mobile Legends bareng kawan grup WA! Siapa dewa retri, siapa member Indomaret?">
+<meta property="og:image" content="https://grupbattle-alfa.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#160a2e;--panel:#241347;--pink:#ff3d8b;--cyan:#2ee6d6;--yellow:#ffd23f;--text:#f6f0ff;--muted:#a999c9;--purple:#8a2be2}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Nunito,system-ui,sans-serif;font-weight:600}
+body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+#app{max-width:480px;margin:0 auto;padding:16px 14px 40px;min-height:100vh;display:flex;flex-direction:column;gap:14px;position:relative}
+h1,h2,h3{font-family:Bungee,Impact,sans-serif;font-weight:400;margin:0;letter-spacing:.5px}
+h1{font-size:2.3rem;color:var(--pink);text-shadow:3px 3px 0 var(--cyan);line-height:1.05}
+h2{font-size:1.4rem;color:var(--yellow)}
+p{margin:0;color:var(--muted)}
+input{width:100%;padding:14px;border-radius:12px;border:2px solid var(--muted);background:var(--panel);color:var(--text);font:inherit;font-size:1.1rem}
+input:focus{outline:3px solid var(--cyan);border-color:var(--cyan)}
+button{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:14px;padding:15px;cursor:pointer;color:#160a2e;background:var(--cyan);width:100%;transition:transform .1s}
+button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+button:active{transform:scale(0.97)}
+button.pink{background:var(--pink);color:#fff}
+button.purple{background:var(--purple);color:#fff}
+button.ghost{background:transparent;color:var(--text);border:2px solid var(--muted)}
+.game-btn{display:flex;justify-content:space-between;align-items:center;text-align:left;background:var(--panel);color:var(--text);border:2px solid var(--pink)}
+.game-btn.special{border:2px solid var(--yellow);background:linear-gradient(135deg,#241347 0%,#3d145c 100%)}
+.game-btn small{color:var(--muted);font-weight:600;display:block}
+.game-btn b{color:var(--yellow);font-family:Bungee,Impact,sans-serif;font-weight:400}
+.hud{display:flex;justify-content:space-between;align-items:center;font-family:Bungee,Impact,sans-serif;font-size:1.15rem}
+.hud span:first-child{color:var(--cyan)}.hud span:last-child{color:var(--yellow)}
+.pad{flex:1;min-height:50vh;border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Bungee,Impact,sans-serif;font-size:2rem;user-select:none;-webkit-user-select:none;touch-action:manipulation;padding:20px}
+#tapPad{background:var(--pink);color:#fff}
+#refPad{background:#c0243f;color:#fff}
+.q{font-size:1.3rem;font-weight:800;line-height:1.35}
+.opt{background:var(--panel);color:var(--text);border:2px solid var(--muted);text-align:left}
+.opt.ok{background:var(--cyan);color:#160a2e;border-color:var(--cyan)}
+.opt.no{background:var(--pink);color:#fff;border-color:var(--pink)}
+.big{font-family:Bungee,Impact,sans-serif;font-size:3.2rem;color:var(--cyan);text-align:center;line-height:1.1}
+.bar{height:12px;border-radius:8px;background:var(--panel);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--cyan)}
+.bar i.low{background:var(--pink)}
+.info{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--yellow);font-weight:800;min-height:40px}
+.info button{width:auto;padding:8px 14px;font-size:.95rem;background:var(--yellow)}
+.info button:disabled{opacity:.35}
+.center{text-align:center}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:no-preference){.pop{animation:pop .25s}@keyframes pop{50%{transform:scale(1.03)}}}
+
+/* ===== ONLINE BAR ===== */
+.online-bar{
+  background:var(--panel);border:1px solid rgba(46,230,214,.3);border-radius:12px;
+  padding:8px 12px;font-size:.85rem;color:var(--cyan);
+  display:none;align-items:center;gap:10px;
+  overflow-x:auto;white-space:nowrap;flex-shrink:0;
+}
+.online-dot{
+  width:8px;height:8px;border-radius:50%;background:#1fb85a;
+  display:inline-block;flex-shrink:0;animation:pulse 2s infinite;
+}
+.player-tag{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);
+  padding:3px 8px;border-radius:8px;font-size:.82rem;
+}
+.btn-tantang{
+  background:linear-gradient(135deg,var(--pink),#ff6b35);color:#fff;
+  border:0;border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:800;
+  cursor:pointer;width:auto;letter-spacing:.3px;
+}
+.btn-tantang:hover{filter:brightness(1.1)}
+
+/* POPUP NOTIFIKASI TANTANGAN MASUK */
+.invite-toast{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);
+  width:90%;max-width:420px;background:var(--panel);border:2px solid var(--yellow);
+  box-shadow:0 10px 30px rgba(0,0,0,.7);border-radius:16px;padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:999;
+  animation:pop .3s ease-out;
+}
+.invite-text{display:flex;flex-direction:column;gap:2px}
+.invite-text b{color:var(--yellow);font-size:.95rem}
+.invite-text span{font-size:.78rem;color:var(--text)}
+.invite-actions{display:flex;gap:6px;flex-shrink:0}
+.invite-actions button{width:auto;padding:7px 12px;font-size:.8rem;border-radius:8px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ===== LEADERBOARD ===== */
+.lb{
+  background:var(--panel);border-radius:14px;padding:14px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.lb h2{font-size:1.15rem;margin:0}
+.lb-tabs{display:flex;gap:6px;overflow-x:auto}
+.lb-tab{
+  flex:1;min-width:70px;padding:8px 4px;border-radius:10px;background:transparent;
+  color:var(--muted);border:1.5px solid var(--muted);font-size:.78rem;
+  text-align:center;cursor:pointer;width:auto;font-weight:800;white-space:nowrap;
+}
+.lb-tab.active{background:var(--pink);color:#fff;border-color:var(--pink)}
+.lb-list{display:flex;flex-direction:column;gap:6px;min-height:40px}
+.lb-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.03);
+}
+.lb-row.me{background:rgba(46,230,214,.1);border:1.5px solid var(--cyan)}
+.lb-rank{font-family:Bungee,Impact,sans-serif;color:var(--yellow);min-width:32px;text-align:center;font-size:1.05rem}
+.lb-rank.gold{color:#ffd700}
+.lb-rank.silver{color:#c0c0c0}
+.lb-rank.bronze{color:#cd7f32}
+.lb-name{flex:1;font-size:.95rem;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis}
+.lb-tier{font-size:.7rem;padding:2px 6px;border-radius:6px;font-weight:800;letter-spacing:.3px;white-space:nowrap}
+.tier-legend{background:#ff3d8b;color:#fff}
+.tier-master{background:#ffd23f;color:#160a2e}
+.tier-pro{background:#2ee6d6;color:#160a2e}
+.tier-rookie{background:rgba(255,255,255,.1);color:var(--muted)}
+.lb-score{font-family:Bungee,Impact,sans-serif;color:var(--cyan);font-size:.95rem;white-space:nowrap}
+.lb-empty{text-align:center;color:var(--muted);padding:16px 0;font-size:.9rem}
+
+/* ===== MODAL & ADU RETRI STYLES ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(10,5,22,.85);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:16px;z-index:99;
+}
+.modal-box{
+  background:var(--panel);border:2px solid var(--cyan);border-radius:18px;
+  width:100%;max-width:400px;padding:20px;display:flex;flex-direction:column;gap:14px;
+}
+.arena-card{
+  background:linear-gradient(180deg,#1e0f3d 0%,#110825 100%);
+  border:2px solid #5a2e99;border-radius:20px;padding:20px 16px;
+  display:flex;flex-direction:column;gap:14px;align-items:center;position:relative;overflow:hidden;
+}
+.lord-icon{
+  font-size:3.5rem;animation:float 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 16px rgba(186,85,211,.6));
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hp-container{width:100%;display:flex;flex-direction:column;gap:6px}
+.hp-info{display:flex;justify-content:space-between;font-family:Bungee,Impact,sans-serif;font-size:1.05rem}
+.hp-bar-outer{
+  position:relative;height:32px;background:#180b2d;border:2px solid #5d259e;border-radius:16px;overflow:hidden;
+}
+.hp-bar-inner{
+  height:100%;width:100%;background:linear-gradient(90deg,#ff2a6d,#ff6b35);
+  transition:width .05s linear;border-radius:14px;
+}
+.retri-marker{
+  position:absolute;top:0;bottom:0;width:3px;background:var(--yellow);
+  box-shadow:0 0 10px var(--yellow);z-index:2;
+}
+.retri-marker::after{
+  content:"RETRI";position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  font-family:Bungee,Impact,sans-serif;font-size:.62rem;color:var(--yellow);letter-spacing:1px;
+}
+.retri-btn-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:10px;
+}
+.retri-circle-btn{
+  width:106px;height:106px;border-radius:50%;border:4px solid #ba55d3;
+  background:#2b104b;box-shadow:0 0 25px rgba(186,85,211,.6);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  padding:0;outline:none;position:relative;overflow:hidden;
+}
+.retri-circle-btn img{width:86%;height:86%;border-radius:50%;object-fit:cover;pointer-events:none}
+.retri-circle-btn:active{transform:scale(0.92);box-shadow:0 0 40px var(--pink);border-color:var(--pink)}
+.retri-circle-btn:disabled{opacity:.4;filter:grayscale(1);cursor:not-allowed}
+.duel-vs-banner{
+  width:100%;display:flex;justify-content:space-around;background:rgba(255,255,255,.05);
+  border-radius:12px;padding:8px 12px;font-family:Bungee,Impact,sans-serif;font-size:.9rem;
+}
+
+/* OVERLAY COUNTDOWN 3..2..1.. */
+.countdown-overlay{
+  position:absolute;inset:0;background:rgba(10,5,22,.85);backdrop-filter:blur(5px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:90;border-radius:20px;
+}
+.countdown-num{
+  font-family:Bungee,Impact,sans-serif;font-size:6rem;color:var(--yellow);
+  text-shadow:0 0 30px var(--pink);animation:pop .4s ease-out;
+}
+.countdown-sub{
+  font-family:Bungee,Impact,sans-serif;font-size:1.2rem;color:var(--cyan);letter-spacing:1px;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TOAST TANTANGAN DUEL LANGSUNG -->
+  <div class="invite-toast hidden" id="inviteToast">
+    <div class="invite-text">
+      <b id="inviterName">Seseorang</b>
+      <span>Menantangmu Duel Adu Retri Lord sekarang!</span>
+    </div>
+    <div class="invite-actions">
+      <button class="pink" onclick="terimaTantanganLangsung()">GASS! 🔥</button>
+      <button class="ghost" onclick="tolakTantanganLangsung()">Tolak</button>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN OVERLAY UNTUK DUEL -->
+  <div class="countdown-overlay hidden" id="duelCountdown">
+    <div class="countdown-num" id="cdNum">3</div>
+    <div class="countdown-sub">BERSIAP RETRI LORD!</div>
+  </div>
+
+  <!-- ONLINE BAR -->
+  <div class="online-bar" id="onlineBar"></div>
+
+  <!-- MENU -->
+  <section id="menu" class="hidden" style="display:flex;flex-direction:column;gap:14px">
+    <h1>Grup Battle</h1>
+    <p>Adu gengsi: Retri Lord, Refleks, Tap Cepat & Kuis!</p>
+
+    <!-- Banner tantangan -->
+    <div id="banner" class="hidden" style="background:var(--panel);border:2px solid var(--yellow);border-radius:14px;padding:14px;flex-direction:column;gap:10px"><b id="bannerTxt"></b><button class="pink" onclick="terima()">Terima tantangan</button></div>
+
+    <label for="nama" style="font-weight:800">Nama kamu (Jungler)</label>
+    <input id="nama" maxlength="14" placeholder="Contoh: Alfa" autocomplete="off">
+
+    <!-- Pilihan game -->
+    <button class="game-btn special" onclick="openRefChoice()">
+      <span>⚔️ Adu Retri & Refleks<small>👑 Curi Lord lawan teman / Tes Refleks</small></span>
+      <b id="b-retri">🔥 DUEL</b>
+    </button>
+    <button class="game-btn" onclick="mulai('tap')"><span>👆 Tap Cepat<small>Tap sebanyak mungkin 10 detik</small></span><b id="b-tap">-</b></button>
+    <button class="game-btn" onclick="mulai('quiz')"><span>🧠 Cerdas Cermat<small>10 soal cepat berhadiah poin</small></span><b id="b-quiz">-</b></button>
+
+    <!-- Leaderboard Utama (Global / Satu Papan) -->
+    <div class="lb" id="lbSection">
+      <h2>🏆 Peringkat & Leaderboard</h2>
+      <div class="lb-tabs" id="lbTabs">
+        <button class="lb-tab active" data-game="retri" onclick="showLb('retri')">Adu Retri</button>
+        <button class="lb-tab" data-game="ref" onclick="showLb('ref')">Refleks</button>
+        <button class="lb-tab" data-game="tap" onclick="showLb('tap')">Tap</button>
+        <button class="lb-tab" data-game="quiz" onclick="showLb('quiz')">Quiz</button>
+      </div>
+      <div class="lb-list" id="lbList"><p class="lb-empty">Belum ada skor. Main dulu! 🎮</p></div>
+    </div>
+
+    <!-- Undang teman -->
+    <button class="pink" onclick="undangGrup()">📲 Bagikan Game ke WhatsApp</button>
+  </section>
+
+  <!-- MODAL PILIH CABANG REFLEKS -->
+  <div class="modal-overlay hidden" id="refChoiceModal">
+    <div class="modal-box">
+      <h2>Pilih Mode Refleks</h2>
+      <p style="font-size:.9rem">Pilih mau duel perebutan Lord atau tes refleks klasik.</p>
+      <button class="pink" onclick="pilihRefMode('retri-solo')">👑 Solo Latihan Retri Lord</button>
+      <button class="purple" onclick="pilihRefMode('retri-duel')">⚡ Buat Room Duel Retri (1 vs 1 WA)</button>
+      <button class="ghost" onclick="pilihRefMode('ref-classic')">🎯 Tes Refleks Klasik (Layar Hijau)</button>
+      <button class="ghost" onclick="closeRefChoice()" style="border-color:transparent;color:var(--muted)">Batal</button>
+    </div>
+  </div>
+
+  <!-- MODAL LOBBY DUEL RETRI -->
+  <div class="modal-overlay hidden" id="duelLobbyModal">
+    <div class="modal-box center">
+      <h2>⚔️ Arena Adu Retri</h2>
+      <p id="lobbyStatus">Menunggu kawan masuk...</p>
+      <div class="duel-vs-banner">
+        <span id="lobbyP1">Pemain 1 (Host)</span>
+        <span style="color:var(--pink)">VS</span>
+        <span id="lobbyP2">Menunggu...</span>
+      </div>
+      <button class="pink" id="btnShareDuel" onclick="shareDuelWA()">📲 Share Link Duel ke Teman WA</button>
+      <button id="btnReadyDuel" class="hidden" onclick="readyDuel()">🔥 SIAP ADU RETRI!</button>
+      <button class="ghost" onclick="batalDuel()">Tinggalkan Room</button>
+    </div>
+  </div>
+
+  <!-- GAME: ADU RETRI ARENA -->
+  <section id="retri" class="hidden" style="display:flex;flex-direction:column;gap:12px;flex:1">
+    <div class="hud">
+      <span id="retriRoundTxt">Ronde 1/3</span>
+      <span id="retriTargetTxt">AMANKAN LORD!</span>
+    </div>
+
+    <div class="arena-card">
+      <div class="lord-icon" id="lordIcon">👑🐲</div>
+      <h3 id="lordName" style="color:var(--yellow);font-size:1.1rem">ANCIENT LORD</h3>
+      
+      <div class="hp-container">
+        <div class="hp-info">
+          <span style="color:var(--pink)">HP LORD</span>
+          <span id="hpNumber">10.000 / 10.000</span>
+        </div>
+        <div class="hp-bar-outer">
+          <div class="retri-marker" id="retriMarker" style="left:20%"></div>
+          <div class="hp-bar-inner" id="hpBar"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)">
+          <span>Batas Retri: <b style="color:var(--yellow)" id="retriThreshTxt">2.000 HP</b></span>
+          <span id="retriTimingTip">Tahan jarimu...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tombol Retribution -->
+    <div class="retri-btn-wrap">
+      <button class="retri-circle-btn" id="retriBtn">
+        <img src="retri.png" alt="Retribution" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%238a2be2%22/><text x=%2250%22 y=%2260%22 font-size=%2235%22 text-anchor=%22middle%22 fill=%22white%22>⚡</text></svg>'">
+      </button>
+      <span id="retriBtnLabel" style="font-family:Bungee,Impact,sans-serif;color:var(--pink);font-size:.9rem">BERSIAP...</span>
+    </div>
+  </section>
+
+  <!-- TAP CEPAT -->
+  <section id="tap" class="hidden" style="flex:1;flex-direction:column;gap:14px">
+    <div class="hud"><span id="tapTime">10.0s</span><span id="tapScore">0 tap</span></div>
+    <div class="pad" id="tapPad" role="button" tabindex="0">TAP UNTUK MULAI</div>
+  </section>
+
+  <!-- TES REFLEKS KLASIK -->
+  <section id="ref" class="hidden" style="flex:1;flex-direction:column;gap:14px">
+    <div class="hud"><span id="refRound">Ronde 1/3</span><span id="refLast"></span></div>
+    <div class="pad" id="refPad" role="button" tabindex="0">TAP UNTUK MULAI</div>
+  </section>
+
+  <!-- CERDAS CERMAT -->
+  <section id="quiz" class="hidden" style="flex-direction:column;gap:12px">
+    <div class="hud"><span id="qNo"></span><span id="qScore"></span></div>
+    <div class="bar"><i id="qBar"></i></div>
+    <div class="info"><span id="qStreak"></span><button id="qHelp">Bantuan 50:50</button></div>
+    <div class="q" id="qText"></div>
+    <div id="qOpts" style="display:flex;flex-direction:column;gap:10px"></div>
+  </section>
+
+  <!-- HASIL -->
+  <section id="hasil" class="hidden" style="flex-direction:column;gap:14px">
+    <h2 id="hGame"></h2>
+    <div class="big pop" id="hSkor"></div>
+    <p class="center" id="hRank" style="font-family:Bungee,Impact,sans-serif;font-size:1.05rem;color:var(--cyan)"></p>
+    <p class="center pop" id="hVs" style="font-family:Bungee,Impact,sans-serif;font-size:1.25rem;color:var(--pink)"></p>
+    <p class="center" id="hBest"></p>
+    <button class="pink" id="hShare">Tantang di WhatsApp</button>
+    <button onclick="mainLagi()">Main lagi</button>
+    <button class="ghost" onclick="tampil('menu')">Kembali ke menu</button>
+  </section>
+
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+/* ============================================================
+   🔥 FIREBASE CONFIG
+   ============================================================ */
+// Isi dengan konfigurasi Firebase Web milik Anda untuk fitur online.
+// Lihat README.md. Konfigurasi deployment asli tidak disertakan.
+const firebaseConfig = {
+  apiKey: "GANTI_API_KEY",
+  authDomain: "GANTI_PROJECT.firebaseapp.com",
+  databaseURL: "https://GANTI_PROJECT-default-rtdb.REGION.firebasedatabase.app",
+  projectId: "GANTI_PROJECT",
+  storageBucket: "GANTI_PROJECT.firebasestorage.app",
+  messagingSenderId: "GANTI_SENDER_ID",
+  appId: "GANTI_APP_ID"
+};
+
+/* ============================================================
+   BANK SOAL CERDAS CERMAT
+   ============================================================ */
+const SOAL = [
+  {q:"Siapa proklamator kemerdekaan Indonesia?", o:["Soekarno dan Hatta","Soeharto dan Habibie","Soekarno dan Soeharto","Hatta dan Sjahrir"], a:0},
+  {q:"Planet terbesar di tata surya?", o:["Saturnus","Jupiter","Neptunus","Bumi"], a:1},
+  {q:"Hasil dari 12 x 12?", o:["124","132","144","148"], a:2},
+  {q:"Gunung tertinggi di Indonesia?", o:["Puncak Jaya","Semeru","Rinjani","Kerinci"], a:0},
+  {q:"Ibu kota Provinsi Jawa Tengah?", o:["Solo","Semarang","Purwokerto","Magelang"], a:1},
+  {q:"Purwokerto terletak di kabupaten apa?", o:["Cilacap","Banjarnegara","Banyumas","Purbalingga"], a:2},
+  {q:"CPU adalah singkatan dari?", o:["Central Processing Unit","Computer Power Unit","Central Program Utility","Core Processing User"], a:0},
+  {q:"Perintah SQL untuk mengambil data dari tabel?", o:["INSERT","SELECT","UPDATE","DELETE"], a:1},
+  {q:"Struktur data yang bersifat FIFO?", o:["Stack","Tree","Queue","Graph"], a:2},
+  {q:"Candi Buddha terbesar di dunia?", o:["Prambanan","Mendut","Sewu","Borobudur"], a:3},
+  {q:"Hari Sumpah Pemuda diperingati tanggal?", o:["28 Oktober","17 Agustus","20 Mei","10 November"], a:0},
+  {q:"Zat hijau daun disebut?", o:["Klorofil","Stomata","Xilem","Floem"], a:0},
+  {q:"Rumus kimia air?", o:["CO2","H2O","O2","NaCl"], a:1},
+  {q:"Pencipta lagu Indonesia Raya?", o:["Ismail Marzuki","W.R. Supratman","Ibu Sud","C. Simanjuntak"], a:1},
+  {q:"Mata uang Jepang?", o:["Won","Yuan","Yen","Ringgit"], a:2},
+  {q:"Benua terluas di dunia?", o:["Afrika","Amerika","Eropa","Asia"], a:3},
+  {q:"Bilangan prima setelah 7?", o:["9","11","13","8"], a:1},
+  {q:"Paus termasuk kelompok hewan apa?", o:["Ikan","Mamalia","Reptil","Amfibi"], a:1},
+  {q:"Indonesia merdeka pada tahun?", o:["1942","1944","1945","1949"], a:2},
+  {q:"HTML adalah singkatan dari?", o:["HyperText Markup Language","High Text Machine Language","HyperTool Multi Language","Home Text Markup Link"], a:0}
+];
+
+const SOAL_GRUP = [
+  {q:"Siapa yang paling sering telat kumpul?", o:["Alfa","Hanung","Haikal","Farizal"], a:0},
+  {q:"Siapa yang paling lama balas chat grup?", o:["Alfa","Hanung","Haikal","Farizal"], a:1},
+  {q:"Siapa yang paling jago main game?", o:["Alfa","Hanung","Haikal","Farizal"], a:2},
+  {q:"Siapa yang paling sering ngilang pas diajak main?", o:["Alfa","Hanung","Haikal","Farizal"], a:3},
+  {q:"Siapa yang paling sering ngutang jajan?", o:["Alfa","Hanung","Haikal","Farizal"], a:0},
+  {q:"Siapa yang paling gampang ketiduran?", o:["Alfa","Hanung","Haikal","Farizal"], a:1}
+];
+
+/* ============================================================
+   STATE & CONSTANTS
+   ============================================================ */
+const NAMA_GAME = {tap:"Tap Cepat", ref:"Tes Refleks", quiz:"Cerdas Cermat", retri:"Adu Retri Lord"};
+const SATUAN_G  = {tap:" tap", ref:" ms", quiz:" poin", retri:" ms"};
+const EMOJI_GAME = {tap:"👆", ref:"⚡", quiz:"🧠", retri:"👑", menu:"📱", hasil:"🏆"};
+let gameNow = "menu", best = {};
+let lawan = null, lastSeed = 0, tantang = null;
+
+/* User ID persistent */
+let uid = null;
+try { uid = localStorage.getItem("gb_uid"); } catch(e) {}
+if (!uid) { uid = "u" + Math.random().toString(36).substr(2,9) + Date.now().toString(36); try { localStorage.setItem("gb_uid", uid); } catch(e) {} }
+
+/* Duel ID */
+let duelRoomId = null;
+let duelRole = null; // 'host' atau 'guest'
+let isDuel = false;
+let duelPartner = null;
+
+/* Firebase state */
+let db = null, fbReady = false;
+let lbData = {retri:[], ref:[], tap:[], quiz:[]}, lbCurrent = "retri";
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = id => document.getElementById(id);
+function getNama(){ return ($("nama").value.trim() || "Alfa Jungler"); }
+
+function generateId(len=6){
+  const c = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+  let id = ""; for(let i=0;i<len;i++) id += c[Math.floor(Math.random()*c.length)]; return id;
+}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function acakSeed(arr,seed){const r=rng(seed),a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+try { best = JSON.parse(localStorage.getItem("gb_best")||"{}"); } catch(e){}
+function simpanBest(){ try{ localStorage.setItem("gb_best", JSON.stringify(best)); }catch(e){} }
+
+/* ============================================================
+   URL PARSING — duel & tantangan
+   ============================================================ */
+let duelFromUrl = null;
+(function(){
+  try{
+    const p = new URLSearchParams(location.search);
+    const urlDuel = p.get("duel");
+    if(urlDuel) duelFromUrl = urlDuel;
+
+    const g=p.get("g"), sv=p.get("s");
+    if(["tap","ref","quiz","retri"].includes(g) && sv!==null && sv!=="" && isFinite(Number(sv)))
+      tantang = {g, s:Number(sv), n:(p.get("n")||"Teman").slice(0,14), r:Number(p.get("r"))||0};
+  }catch(e){}
+})();
+
+/* ============================================================
+   🔥 FIREBASE INIT — SATU LEADERBOARD UNTUK SEMUA
+   ============================================================ */
+function initFirebase(){
+  try{
+    if(firebaseConfig.apiKey.startsWith("GANTI")){ return; }
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+    fbReady = true;
+    console.log("✅ Firebase connected");
+    initPresence();
+    listenLeaderboard();
+
+    // Auto join duel jika ada param duel di URL
+    if(duelFromUrl){
+      setTimeout(()=> joinDuelRoom(duelFromUrl), 600);
+    }
+  }catch(e){
+    console.warn("Firebase init error:", e);
+  }
+}
+
+/* ============================================================
+   🟢 PRESENCE — Teman Online Real-time (Termasuk Diri Sendiri)
+   ============================================================ */
+function initPresence(){
+  if(!fbReady) return;
+
+  const connRef = db.ref(".info/connected");
+  connRef.on("value", snap => {
+    if(snap.val() === true){
+      const presRef = db.ref("presence/" + uid);
+      presRef.onDisconnect().remove();
+      presRef.set({
+        n: getNama(),
+        a: "menu",
+        t: firebase.database.ServerValue.TIMESTAMP
+      });
+    }
+  });
+
+  db.ref("presence").on("value", snap => {
+    const players = [];
+    snap.forEach(child => {
+      const d = child.val();
+      d.uid = child.key;
+      d.isMe = (child.key === uid);
+      players.push(d);
+    });
+    renderOnline(players);
+  });
+
+  // Listen tantangan duel masuk khusus untuk user ini
+  db.ref("invites/" + uid).on("value", snap => {
+    const inv = snap.val();
+    if(inv && inv.fromUid && inv.roomId){
+      currentInvite = inv;
+      $("inviterName").textContent = inv.fromName || "Temanmu";
+      $("inviteToast").classList.remove("hidden");
+    } else {
+      currentInvite = null;
+      $("inviteToast").classList.add("hidden");
+    }
+  });
+}
+
+function updatePresence(activity){
+  if(!fbReady) return;
+  try{
+    db.ref("presence/" + uid).update({
+      n: getNama(),
+      a: activity,
+      t: firebase.database.ServerValue.TIMESTAMP
+    });
+  }catch(e){}
+}
+
+let currentInvite = null;
+
+function renderOnline(players){
+  const bar = $("onlineBar");
+  if(players.length === 0){ bar.style.display = "none"; return; }
+  bar.style.display = "flex";
+  players.sort((a,b) => (b.isMe ? 1 : 0) - (a.isMe ? 1 : 0));
+  
+  bar.innerHTML = '<span class="online-dot"></span> <span style="font-size:.8rem;color:var(--muted)">' + players.length + ' online:</span> ';
+  
+  players.forEach(p => {
+    const emoji = EMOJI_GAME[p.a] || "📱";
+    const act = (p.a && NAMA_GAME[p.a]) ? " • " + NAMA_GAME[p.a] : "";
+    const nameLabel = p.isMe ? (p.n || "Kamu") + " (Kamu)" : (p.n || "Teman");
+    
+    const tag = document.createElement("div");
+    tag.className = "player-tag";
+    
+    let html = '<span>' + emoji + ' ' + escHtml(nameLabel) + '<small style="color:var(--muted)">' + act + '</small></span>';
+    
+    // Jika bukan diri sendiri, berikan tombol "Tantang Duel" langsung tanpa perlu WA!
+    if(!p.isMe){
+      html += ' <button class="btn-tantang" onclick="tantangPlayerLangsung(\'' + p.uid + '\',\'' + escHtml(p.n||"Teman").replace(/'/g,"") + '\')">⚔️ TANTANG</button>';
+    }
+    
+    tag.innerHTML = html;
+    bar.appendChild(tag);
+  });
+}
+
+function tantangPlayerLangsung(targetUid, targetName){
+  if(!fbReady){ alert("Firebase belum terhubung!"); return; }
+  
+  // Buat room duel
+  duelRoomId = "duel_" + generateId(8);
+  duelRole = "host";
+  isDuel = true;
+  duelPartner = targetName;
+
+  const roomRef = db.ref("duels/" + duelRoomId);
+  roomRef.onDisconnect().remove();
+  roomRef.set({
+    host: { uid: uid, name: getNama(), ready: true },
+    guest: null,
+    status: "waiting",
+    startTime: 0,
+    round: 1
+  });
+
+  // Kirim sinyal tantangan ke target secara instan lewat Firebase
+  db.ref("invites/" + targetUid).set({
+    fromUid: uid,
+    fromName: getNama(),
+    roomId: duelRoomId,
+    t: Date.now()
+  });
+
+  // Buka lobby duel
+  $("duelLobbyModal").classList.remove("hidden");
+  $("lobbyStatus").textContent = "Tantangan terkirim ke " + targetName + "! Menunggu konfirmasi...";
+  $("lobbyP1").textContent = getNama() + " (✅ SIAP)";
+  $("lobbyP2").textContent = targetName + " (Dipanggil...)";
+  $("btnShareDuel").classList.add("hidden");
+  $("btnReadyDuel").classList.add("hidden");
+
+  listenDuelRoom(roomRef);
+}
+
+function terimaTantanganLangsung(){
+  if(!currentInvite) return;
+  const inv = currentInvite;
+  
+  // Hapus notif invite
+  db.ref("invites/" + uid).remove();
+  $("inviteToast").classList.add("hidden");
+
+  // Langsung gabung room duel
+  joinDuelRoom(inv.roomId);
+  
+  // Langsung set status ready agar game langsung dimulai
+  setTimeout(() => {
+    readyDuel();
+  }, 400);
+}
+
+function tolakTantanganLangsung(){
+  db.ref("invites/" + uid).remove();
+  $("inviteToast").classList.add("hidden");
+}
+
+/* ============================================================
+   🏆 LEADERBOARD — SATU PAPAN SKOR BERSAMA
+   ============================================================ */
+function listenLeaderboard(){
+  if(!fbReady) return;
+  ["retri","ref","tap","quiz"].forEach(game => {
+    db.ref("leaderboard/" + game).on("value", snap => {
+      const data = [];
+      snap.forEach(child => data.push(Object.assign({}, child.val(), {uid: child.key})));
+      if(game === "ref" || game === "retri") data.sort((a,b) => a.score - b.score);
+      else data.sort((a,b) => b.score - a.score);
+      lbData[game] = data;
+      if(lbCurrent === game) renderLb();
+    });
+  });
+}
+
+function simpanSkorOnline(game, skor){
+  if(!fbReady) return;
+  const ref = db.ref("leaderboard/" + game + "/" + uid);
+  ref.once("value").then(snap => {
+    const old = snap.val();
+    const lebihBaik = (game === "ref" || game === "retri")
+      ? (!old || skor < old.score)
+      : (!old || skor > old.score);
+    if(lebihBaik){
+      ref.set({ name: getNama(), score: skor, t: firebase.database.ServerValue.TIMESTAMP });
+    }
+  }).catch(e => console.warn("Score save error:", e));
+}
+
+function showLb(game){
+  lbCurrent = game;
+  document.querySelectorAll(".lb-tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.game === game);
+  });
+  renderLb();
+}
+
+function getTierBadge(rank, game){
+  if(game === "retri"){
+    if(rank === 1) return { label: "👑 Dewa Retri", cls: "tier-legend" };
+    if(rank === 2) return { label: "⚡ Pro Jungler", cls: "tier-master" };
+    if(rank === 3) return { label: "🔥 Fast Hand", cls: "tier-master" };
+    if(rank <= 5) return { label: "Top 5 Retri", cls: "tier-pro" };
+    return { label: "Member Indomaret", cls: "tier-rookie" };
+  }
+  if(rank === 1) return { label: "👑 Juara 1", cls: "tier-legend" };
+  if(rank === 2) return { label: "🥈 Juara 2", cls: "tier-master" };
+  if(rank === 3) return { label: "🥉 Juara 3", cls: "tier-master" };
+  if(rank <= 5) return { label: "Top 5", cls: "tier-pro" };
+  return { label: "#" + rank, cls: "tier-rookie" };
+}
+
+function renderLb(){
+  const list = $("lbList");
+  const data = lbData[lbCurrent];
+  if(!data || data.length === 0){
+    list.innerHTML = '<p class="lb-empty">Belum ada skor. Main dulu! 🎮</p>';
+    return;
+  }
+  const satuan = (lbCurrent === "ref" || lbCurrent === "retri") ? " ms" : lbCurrent === "quiz" ? " poin" : " tap";
+  list.innerHTML = data.slice(0,15).map((d,i) => {
+    const isMe = d.uid === uid;
+    const rank = i + 1;
+    const tier = getTierBadge(rank, lbCurrent);
+    const medal = rank===1 ? "🥇" : rank===2 ? "🥈" : rank===3 ? "🥉" : ("#" + rank);
+    const medalCls = rank===1 ? "gold" : rank===2 ? "silver" : rank===3 ? "bronze" : "";
+    return '<div class="lb-row' + (isMe ? ' me' : '') + '">'
+      + '<span class="lb-rank ' + medalCls + '">' + medal + '</span>'
+      + '<span class="lb-name">' 
+      + '<span>' + escHtml(d.name) + (isMe ? ' (kamu)' : '') + '</span>'
+      + '<span class="lb-tier ' + tier.cls + '">' + tier.label + '</span>'
+      + '</span>'
+      + '<span class="lb-score">' + d.score + satuan + '</span>'
+      + '</div>';
+  }).join("");
+}
+
+function escHtml(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+function getRank(game){
+  const data = lbData[game];
+  if(!data) return 0;
+  for(let i=0;i<data.length;i++){ if(data[i].uid === uid) return i+1; }
+  return 0;
+}
+
+/* ============================================================
+   NAVIGATION & MODAL
+   ============================================================ */
+const layar = ["menu","tap","ref","quiz","retri","hasil"];
+function tampil(id){
+  layar.forEach(l => { const e=$(l); e.classList.toggle("hidden", l!==id); e.style.display = (l===id)?"flex":"none"; });
+  if(id==="menu") renderBest();
+  if(["tap","ref","quiz","retri"].includes(id)) updatePresence(id);
+  else updatePresence("menu");
+  window.scrollTo(0,0);
+}
+
+function renderBest(){
+  $("b-tap").textContent = best.tap!=null ? best.tap : "-";
+  $("b-ref").textContent = best.ref!=null ? best.ref+"ms" : "-";
+  $("b-quiz").textContent = best.quiz!=null ? best.quiz : "-";
+  $("b-retri").textContent = best.retri!=null ? best.retri+"ms" : "🔥 DUEL";
+}
+
+function openRefChoice(){ $("refChoiceModal").classList.remove("hidden"); }
+function closeRefChoice(){ $("refChoiceModal").classList.add("hidden"); }
+
+function pilihRefMode(mode){
+  closeRefChoice();
+  if(mode === "ref-classic"){
+    mulai('ref');
+  } else if(mode === "retri-solo"){
+    isDuel = false;
+    mulai('retri');
+  } else if(mode === "retri-duel"){
+    createDuelRoom();
+  }
+}
+
+/* ============================================================
+   LINK & SHARE
+   ============================================================ */
+function linkTantang(skor){
+  const u=new URL(location.href); u.search=""; u.hash="";
+  u.searchParams.set("g",gameNow); u.searchParams.set("n",getNama()); u.searchParams.set("s",skor);
+  if(gameNow==="quiz") u.searchParams.set("r",lastSeed);
+  return u.toString();
+}
+
+function terima(){ if(tantang) mulai(tantang.g, tantang); }
+
+function undangGrup(){
+  const u=new URL(location.href); u.search=""; u.hash="";
+  const link = u.toString();
+  const teks = "🎮 Main Grup Battle bareng yuk!\n\n👑 Adu Retri Lord Mobile Legends (1 vs 1 Realtime)\n⚡ Tes Refleks & Tap Cepat\n🧠 Cerdas Cermat\n\nSiapa dewa retri, siapa member Indomaret? 😂\nKlik link untuk gabung:";
+  window.open("https://wa.me/?text="+encodeURIComponent(teks+"\n"+link), "_blank");
+}
+
+/* ============================================================
+   ⚔️ DUEL REALTIME RETRI (DENGAN HITUNG MUNDUR 3 DETIK)
+   ============================================================ */
+function createDuelRoom(){
+  if(!fbReady){ alert("Firebase belum terhubung. Pastikan internet aktif!"); return; }
+  duelRoomId = "duel_" + generateId(8);
+  duelRole = "host";
+  isDuel = true;
+  duelPartner = null;
+
+  const roomRef = db.ref("duels/" + duelRoomId);
+  roomRef.onDisconnect().remove();
+  roomRef.set({
+    host: { uid: uid, name: getNama(), ready: false },
+    guest: null,
+    status: "waiting", // waiting, ready, countdown, active, finished
+    startTime: 0,
+    round: 1
+  });
+
+  $("duelLobbyModal").classList.remove("hidden");
+  $("lobbyStatus").textContent = "Share link ini ke kawanmu di WA!";
+  $("lobbyP1").textContent = getNama() + " (Kamu)";
+  $("lobbyP2").textContent = "Menunggu kawan...";
+  $("btnShareDuel").classList.remove("hidden");
+  $("btnReadyDuel").classList.add("hidden");
+
+  listenDuelRoom(roomRef);
+}
+
+function joinDuelRoom(roomId){
+  if(!fbReady){ setTimeout(()=> joinDuelRoom(roomId), 500); return; }
+  duelRoomId = roomId;
+  duelRole = "guest";
+  isDuel = true;
+
+  const roomRef = db.ref("duels/" + duelRoomId);
+  roomRef.once("value").then(snap => {
+    const data = snap.val();
+    if(!data || data.status === "finished"){
+      alert("Room duel sudah selesai atau tidak ditemukan.");
+      return;
+    }
+    if(data.host && data.host.uid === uid){
+      duelRole = "host";
+    } else {
+      roomRef.child("guest").set({ uid: uid, name: getNama(), ready: false });
+      roomRef.child("guest").onDisconnect().remove();
+    }
+    $("duelLobbyModal").classList.remove("hidden");
+    listenDuelRoom(roomRef);
+  });
+}
+
+function listenDuelRoom(roomRef){
+  roomRef.on("value", snap => {
+    const data = snap.val();
+    if(!data) return;
+
+    if(data.host) $("lobbyP1").textContent = data.host.name + (data.host.ready ? " (✅ SIAP)" : "");
+    if(data.guest){
+      duelPartner = (duelRole === "host") ? data.guest.name : data.host.name;
+      $("lobbyP2").textContent = data.guest.name + (data.guest.ready ? " (✅ SIAP)" : "");
+      $("btnReadyDuel").classList.remove("hidden");
+      $("btnReadyDuel").disabled = false;
+      $("lobbyStatus").textContent = "Lawan masuk! Klik SIAP untuk bertanding!";
+    }
+
+    // Jika kedua pemain sudah ready, host jadwalkan hitungan mundur 3 detik sinkron
+    if(data.host && data.guest && data.host.ready && data.guest.ready && data.status === "waiting"){
+      if(duelRole === "host"){
+        // Beri waktu 3.5 detik untuk countdown 3..2..1..
+        const startTimestamp = Date.now() + 3500;
+        roomRef.update({ status: "countdown", startTime: startTimestamp, round: 1 });
+      }
+    }
+
+    // Status Countdown
+    if(data.status === "countdown" && data.startTime > 0){
+      $("duelLobbyModal").classList.add("hidden");
+      mulaiCountdownDuel(data.startTime, data.round || 1);
+    }
+  });
+}
+
+function mulaiCountdownDuel(startTime, r){
+  tampil("retri");
+  retriRound = r;
+  $("retriRoundTxt").textContent = "Ronde " + retriRound + "/3 (DUEL REALTIME)";
+  
+  // Tampilkan overlay countdown
+  const cd = $("duelCountdown");
+  const num = $("cdNum");
+  cd.classList.remove("hidden");
+  
+  // Matikan tombol retri saat hitung mundur agar tidak bisa curang
+  const btn = $("retriBtn");
+  btn.disabled = true;
+  $("retriBtnLabel").textContent = "BERSIAP...";
+
+  // Siapkan arena sebelum jalan
+  retriState = "idle";
+  lordHp = lordMaxHp = 10000;
+  retriThreshold = 2000;
+  $("retriThreshTxt").textContent = retriThreshold + " HP";
+  $("retriMarker").style.left = (retriThreshold / lordMaxHp * 100) + "%";
+  $("hpBar").style.width = "100%";
+  $("hpNumber").textContent = "10.000 / 10.000";
+
+  const cdTimer = setInterval(() => {
+    const sisaMs = startTime - Date.now();
+    const detik = Math.ceil(sisaMs / 1000);
+    if(detik > 0){
+      num.textContent = detik;
+    } else {
+      clearInterval(cdTimer);
+      num.textContent = "RETRI!";
+      setTimeout(() => {
+        cd.classList.add("hidden");
+        // Mulai otomatis darah lord berkurang tanpa harus dipencet manual!
+        mulaiLordDarahTurun();
+      }, 400);
+    }
+  }, 100);
+}
+
+function shareDuelWA(){
+  const u = new URL(location.href); u.search = ""; u.hash = "";
+  u.searchParams.set("duel", duelRoomId);
+  const link = u.toString();
+  const teks = "👑 *ADU RETRI LORD MOBILE LEGENDS (1 VS 1)* 👑\n\n" + getNama() + " menantang kamu adu retri Lord sekarang!\nSiapa tercepat & paling akurat dia yang curi Lord.\n\nKlik link ini untuk masuk arena:";
+  window.open("https://wa.me/?text=" + encodeURIComponent(teks + "\n" + link), "_blank");
+}
+
+function readyDuel(){
+  if(!duelRoomId) return;
+  db.ref("duels/" + duelRoomId + "/" + duelRole).update({ ready: true, name: getNama() });
+  $("btnReadyDuel").disabled = true;
+  $("btnReadyDuel").textContent = "MENUNGGU LAWAN SIAP...";
+}
+
+function batalDuel(){
+  if(duelRoomId){
+    db.ref("duels/" + duelRoomId).remove();
+    duelRoomId = null;
+  }
+  $("duelLobbyModal").classList.add("hidden");
+  tampil("menu");
+}
+
+/* ============================================================
+   👑 GAME: ADU RETRI LORD (SOLO & DUEL REALTIME)
+   ============================================================ */
+let retriLoop = null;
+let lordHp = 10000;
+let retriThreshold = 2000;
+let lordMaxHp = 10000;
+let retriState = "idle";
+let retriRound = 1;
+let retriScores = [];
+
+function initRetriSolo(){
+  tampil("retri");
+  retriRound = 1;
+  retriScores = [];
+  setupRetriSoloRound();
+}
+
+function setupRetriSoloRound(){
+  retriState = "idle";
+  lordHp = lordMaxHp = 10000;
+  retriThreshold = 1800 + Math.floor(Math.random() * 400);
+  
+  $("retriRoundTxt").textContent = "Ronde " + retriRound + "/3 (SOLO)";
+  $("retriThreshTxt").textContent = retriThreshold + " HP";
+  $("retriMarker").style.left = (retriThreshold / lordMaxHp * 100) + "%";
+  $("hpBar").style.width = "100%";
+  $("hpNumber").textContent = "10.000 / 10.000";
+  $("retriTimingTip").textContent = "Tahan jarimu... Tunggu HP <= " + retriThreshold;
+  $("retriTargetTxt").textContent = "AMANKAN LORD!";
+  
+  const btn = $("retriBtn");
+  btn.disabled = false;
+  $("retriBtnLabel").textContent = "TAP UNTUK MULAI PUKUL LORD";
+
+  btn.onclick = () => {
+    if(retriState === "idle"){
+      mulaiLordDarahTurun();
+    } else if(retriState === "running"){
+      eksekusiRetri();
+    }
+  };
+}
+
+function mulaiLordDarahTurun(){
+  retriState = "running";
+  const btn = $("retriBtn");
+  btn.disabled = false;
+  $("retriBtnLabel").textContent = "⚡ PENCET RETRI SEKARANG!";
+  btn.onclick = eksekusiRetri;
+
+  const startT = performance.now();
+  const durasiTurun = 3200 + Math.random() * 1000; // 3.2 - 4.2 detik
+  
+  clearInterval(retriLoop);
+  retriLoop = setInterval(() => {
+    const elapsed = performance.now() - startT;
+    const progress = Math.min(1, elapsed / durasiTurun);
+    
+    lordHp = Math.max(0, Math.round(lordMaxHp * (1 - Math.pow(progress, 1.25))));
+    
+    $("hpBar").style.width = (lordHp / lordMaxHp * 100) + "%";
+    $("hpNumber").textContent = lordHp.toLocaleString("id-ID") + " / 10.000";
+
+    if(lordHp <= 0){
+      clearInterval(retriLoop);
+      if(retriState === "running"){
+        retriGagal("LORD DIBUNUH CREEP / MUSUH! 😭", 9999);
+      }
+    }
+  }, 25);
+}
+
+function eksekusiRetri(){
+  if(retriState !== "running") return;
+  retriState = "hit";
+  clearInterval(retriLoop);
+  $("retriBtn").disabled = true;
+
+  const currentHp = lordHp;
+  const selisih = currentHp - retriThreshold;
+
+  if(selisih > 0){
+    retriGagal("RETRI KEPAGIAN! (Lord masih " + currentHp + " HP)", 3000 + selisih);
+  } else {
+    const akurasiMs = Math.round(Math.abs(selisih) * 0.4); 
+    retriBerhasil(akurasiMs, currentHp);
+  }
+}
+
+function retriBerhasil(ms, hp){
+  retriScores.push(ms);
+  $("hpBar").style.width = "0%";
+  $("hpNumber").textContent = "0 / 10.000 (LORD SECURED!)";
+  
+  let labelAkurasi = "👑 DEWA RETRI!";
+  if(ms > 180) labelAkurasi = "🛒 RETRI INDOMARET TAPI DAPET 😂";
+  else if(ms > 90) labelAkurasi = "⚡ FAST HAND JUNGLER!";
+
+  $("retriTargetTxt").textContent = labelAkurasi;
+  $("retriBtnLabel").textContent = "SELISIH: " + ms + " ms!";
+
+  lanjutAtauSelesaiRetri();
+}
+
+function retriGagal(alasan, pinaltiMs){
+  retriScores.push(pinaltiMs);
+  $("retriTargetTxt").textContent = "❌ GAGAL CURI LORD!";
+  $("retriBtnLabel").textContent = alasan;
+
+  lanjutAtauSelesaiRetri();
+}
+
+function lanjutAtauSelesaiRetri(){
+  setTimeout(() => {
+    retriRound++;
+    if(retriRound <= 3){
+      if(isDuel){
+        // Ronde duel berikutnya tetap pakai countdown 3 detik
+        mulaiCountdownDuel(Date.now() + 3200, retriRound);
+      } else {
+        setupRetriSoloRound();
+      }
+    } else {
+      const rataRata = Math.round(retriScores.reduce((a,b)=>a+b, 0) / retriScores.length);
+      selesai(rataRata);
+    }
+  }, 1800);
+}
+
+/* ============================================================
+   GAME: MULAI & SELESAI
+   ============================================================ */
+function mulai(g,vs){
+  gameNow = g; lawan = vs||null;
+  try{ localStorage.setItem("gb_nama", getNama()); }catch(e){}
+  if(g==="tap") initTap();
+  else if(g==="ref") initRef();
+  else if(g==="retri") initRetriSolo();
+  else initQuiz();
+}
+
+function mainLagi(){
+  if(gameNow === "retri"){
+    isDuel = false;
+    initRetriSolo();
+  } else {
+    mulai(gameNow);
+  }
+}
+
+function selesai(skor){
+  const lebihBaik = (gameNow==="ref" || gameNow==="retri") 
+    ? (best[gameNow]==null || skor < best[gameNow]) 
+    : (best[gameNow]==null || skor > best[gameNow]);
+  
+  if(lebihBaik){ best[gameNow]=skor; simpanBest(); }
+
+  simpanSkorOnline(gameNow, skor);
+
+  $("hGame").textContent = NAMA_GAME[gameNow];
+  const satuan = SATUAN_G[gameNow];
+  $("hSkor").textContent = skor + satuan;
+  
+  if(gameNow === "retri"){
+    let julukan = skor < 100 ? "👑 Gelar: DEWA RETRI SEJATI" : skor < 250 ? "⚡ Gelar: PRO JUNGLER" : "🛒 Gelar: MEMBER INDOMARET";
+    $("hBest").textContent = julukan + " (Akurasi: " + skor + "ms)";
+  } else {
+    $("hBest").textContent = lebihBaik ? "🎉 Rekor pribadi baru!" : "Rekor pribadimu: " + best[gameNow] + satuan;
+  }
+
+  /* Peringkat & Tier */
+  $("hRank").textContent = "";
+  setTimeout(() => {
+    const rank = getRank(gameNow);
+    const total = (lbData[gameNow]||[]).length;
+    if(rank > 0 && total > 1){
+      const tier = getTierBadge(rank, gameNow);
+      $("hRank").textContent = "📊 Peringkat #" + rank + " dari " + total + " pemain (" + tier.label + ")";
+    } else if(fbReady && total <= 1){
+      $("hRank").textContent = "👑 Kamu di peringkat #1!";
+    }
+  }, 600);
+
+  const me = getNama(), link = linkTantang(skor);
+  let teks, label = "Tantang Teman di WhatsApp";
+  $("hVs").textContent = "";
+
+  if(isDuel && duelPartner){
+    $("hVs").textContent = "Duel Selesai lawan " + duelPartner + "!";
+    teks = "👑 Hasil Adu Retri Lord: " + me + " selesai bertarung lawan " + duelPartner + " dengan akurasi " + skor + "ms! Ada yang berani rematch?";
+    label = "Kirim Hasil Duel ke WA";
+  } else if(lawan){
+    const isWaktu = (gameNow==="ref" || gameNow==="retri");
+    const menang = isWaktu ? skor < lawan.s : skor > lawan.s;
+    const seri = skor === lawan.s;
+    const vs = skor + satuan + " vs " + lawan.s + satuan;
+    $("hVs").textContent = seri ? "SERI! "+vs : menang ? "🏆 KAMU MENANG! "+vs : "😢 KAMU KALAH. "+vs;
+    teks = seri ? me+" seri lawan "+lawan.n+" di "+NAMA_GAME[gameNow]+" ("+vs+"). Rematch Lord?"
+      : menang ? me+" MENANG adu retri lawan "+lawan.n+" ("+vs+")! Siapa lagi yang mau curi Lord?"
+      : me+" kena Retri Indomaret dari "+lawan.n+" ("+vs+"). Minta rematch!";
+    label = "Kirim hasil duel ke grup WA";
+    $("banner").style.display = "none";
+    lawan = null;
+  } else {
+    teks = me+" menantang kamu di "+NAMA_GAME[gameNow]+"! Akurasi "+me+": "+skor+satuan+". Berani adu mekanik?";
+  }
+  
+  $("hShare").textContent = label;
+  $("hShare").onclick = () => window.open("https://wa.me/?text="+encodeURIComponent(teks+"\n"+link), "_blank");
+  tampil("hasil");
+}
+
+/* ============================================================
+   GAME: TAP CEPAT
+   ============================================================ */
+function initTap(){
+  tampil("tap");
+  let n=0, jalan=false, sisa=10, timer=null, mulaiT=0;
+  const pad=$("tapPad");
+  $("tapTime").textContent="10.0s"; $("tapScore").textContent="0 tap"; pad.textContent="TAP UNTUK MULAI";
+  pad.style.background="";
+  pad.onpointerdown = e => {
+    e.preventDefault();
+    if(!jalan){
+      jalan=true; mulaiT=performance.now(); pad.textContent="TAP!";
+      timer=setInterval(()=>{
+        sisa = Math.max(0, 10-(performance.now()-mulaiT)/1000);
+        $("tapTime").textContent = sisa.toFixed(1)+"s";
+        if(sisa<=0){ clearInterval(timer); jalan=false; pad.onpointerdown=null; setTimeout(()=>selesai(n),300); }
+      },50);
+    }
+    n++; $("tapScore").textContent = n+" tap";
+  };
+}
+
+/* ============================================================
+   GAME: TES REFLEKS KLASIK
+   ============================================================ */
+function initRef(){
+  tampil("ref");
+  const pad=$("refPad"); let ronde=0, hasil=[], state="idle", t0=0, to=null;
+  $("refRound").textContent="Ronde 1/3"; $("refLast").textContent="";
+  pad.style.background="#c0243f"; pad.textContent="TAP UNTUK MULAI";
+  function siap(){
+    state="wait"; pad.style.background="#c0243f"; pad.textContent="TUNGGU HIJAU...";
+    to=setTimeout(()=>{ state="go"; t0=performance.now(); pad.style.background="#1fb85a"; pad.textContent="SEKARANG!"; }, 1200+Math.random()*2800);
+  }
+  pad.onpointerdown = e => {
+    e.preventDefault();
+    if(state==="idle"){ siap(); }
+    else if(state==="wait"){ clearTimeout(to); state="idle"; pad.style.background="#7a1530"; pad.textContent="TERLALU CEPAT! TAP ULANG"; }
+    else if(state==="go"){
+      const ms=Math.round(performance.now()-t0); hasil.push(ms); ronde++;
+      $("refLast").textContent = ms+" ms";
+      if(ronde>=3){ state="done"; pad.onpointerdown=null; const avg=Math.round(hasil.reduce((a,b)=>a+b,0)/3); setTimeout(()=>selesai(avg),600); }
+      else { $("refRound").textContent="Ronde "+(ronde+1)+"/3"; state="idle"; pad.style.background="#2b1a55"; pad.textContent=ms+" ms. TAP LANJUT"; }
+    }
+  };
+}
+
+/* ============================================================
+   GAME: CERDAS CERMAT
+   ============================================================ */
+function initQuiz(){
+  tampil("quiz");
+  const WAKTU=15, JUMLAH=10;
+  const seed=(lawan&&lawan.g==="quiz"&&lawan.r)||Math.floor(Math.random()*1e9);
+  lastSeed=seed;
+  const acak=acakSeed([...SOAL,...SOAL_GRUP],seed).slice(0,JUMLAH);
+  const total=acak.length;
+  let i=0, skor=0, streak=0, bantuan=true, t0=0, timer=null, kunci=false;
+
+  $("qHelp").onclick=()=>{
+    if(!bantuan||kunci) return;
+    bantuan=false; $("qHelp").disabled=true;
+    const s=acak[i];
+    [0,1,2,3].filter(x=>x!==s.a).sort(()=>Math.random()-0.5).slice(0,2).forEach(x=>{
+      const b=$("qOpts").children[x]; b.disabled=true; b.style.opacity=.25;
+    });
+  };
+
+  function jawab(idx){
+    if(kunci) return;
+    kunci=true; clearInterval(timer);
+    const s=acak[i], sisa=Math.max(0,WAKTU-(performance.now()-t0)/1000);
+    const btns=[...$("qOpts").children]; btns.forEach(x=>x.disabled=true);
+    $("qHelp").disabled=true;
+    if(idx===s.a){
+      streak++;
+      const poin=100+Math.round(sisa/WAKTU*50)+Math.min((streak-1)*10,50);
+      skor+=poin; btns[idx].classList.add("ok");
+      $("qStreak").textContent="Benar! +"+poin+" poin";
+    } else {
+      streak=0; btns[s.a].classList.add("ok");
+      if(idx>=0) btns[idx].classList.add("no");
+      $("qStreak").textContent = idx<0 ? "Waktu habis" : "Salah";
+    }
+    $("qScore").textContent=skor+" poin";
+    setTimeout(()=>{ i++; if(i>=total) selesai(skor); else tanya(); }, 1300);
+  }
+
+  function tanya(){
+    const s=acak[i]; kunci=false;
+    $("qNo").textContent="Soal "+(i+1)+"/"+total;
+    $("qScore").textContent=skor+" poin";
+    $("qStreak").textContent = streak>1 ? "Beruntun x"+streak : "";
+    $("qText").textContent=s.q; $("qOpts").innerHTML="";
+    s.o.forEach((teks,idx)=>{
+      const b=document.createElement("button"); b.className="opt"; b.textContent=teks;
+      b.onclick=()=>jawab(idx); $("qOpts").appendChild(b);
+    });
+    $("qHelp").disabled=!bantuan;
+    t0=performance.now();
+    timer=setInterval(()=>{
+      const sisa=Math.max(0,WAKTU-(performance.now()-t0)/1000);
+      const bar=$("qBar"); bar.style.width=(sisa/WAKTU*100)+"%"; bar.classList.toggle("low",sisa<5);
+      if(sisa<=0) jawab(-1);
+    },100);
+  }
+  tanya();
+}
+
+/* ============================================================
+   🚀 STARTUP
+   ============================================================ */
+try{ $("nama").value = localStorage.getItem("gb_nama")||""; }catch(e){}
+
+if(tantang){
+  $("bannerTxt").textContent = tantang.n+" menantang kamu di "+(NAMA_GAME[tantang.g]||tantang.g)+"! Skor "+tantang.n+": "+tantang.s+SATUAN_G[tantang.g];
+  $("banner").classList.remove("hidden"); $("banner").style.display="flex";
+}
+
+initFirebase();
+tampil("menu");
+
+$("nama").addEventListener("input", () => {
+  try{ localStorage.setItem("gb_nama", getNama()); }catch(e){}
+  updatePresence("menu");
+});
+</script>
+</body>
+</html>
